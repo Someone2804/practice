@@ -93,8 +93,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void authenticateUser(User user){
-        try {
+    public void authenticateUser(User user) throws UsernameNotFoundException, AuthenticationCredentialsNotFoundException{
             UserDetails userDetails = loadUserByUsername(user.getUsername());
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
@@ -102,10 +101,6 @@ public class UserService implements UserDetailsService {
         if(auth.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(auth);
         }else{
-            throw new AuthenticationCredentialsNotFoundException("Incorrect login or password.");
-        }
-
-        }catch (UsernameNotFoundException e){
             throw new AuthenticationCredentialsNotFoundException("Incorrect login or password.");
         }
     }
